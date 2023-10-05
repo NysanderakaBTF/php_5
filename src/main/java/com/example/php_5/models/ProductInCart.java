@@ -1,6 +1,7 @@
 package com.example.php_5.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,6 @@ import lombok.Setter;
 public class ProductInCart {
     @Id
     @GeneratedValue
-    @Column
     private int id;
 
     @Column
@@ -26,6 +26,7 @@ public class ProductInCart {
     private ProductType productType;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "cart_id", nullable = false)
+    @JsonIgnore
+    @JoinColumn(name = "cart_id", nullable = false, referencedColumnName = "id")
     private Cart cart;
 }

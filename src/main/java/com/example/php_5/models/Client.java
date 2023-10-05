@@ -1,6 +1,7 @@
 package com.example.php_5.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class Client {
     @Column
     private String password;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "client")
     private Cart cart;
 }

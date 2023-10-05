@@ -10,6 +10,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService {
@@ -38,7 +39,7 @@ public class CartService {
     }
 
     public Cart get_by_id(int id) {
-        return cartRepository.findById(id).get();
+        return cartRepository.getCartByClient_Id(id);
     }
 
     public void saveOrUpdate(Cart clients) {
@@ -127,6 +128,12 @@ public class CartService {
         this.recalculateTotal(product.getCart().getId());
     }
     public void delete_product_in_cart(int product_ic_id){
+        System.out.println(product_ic_id);
+        ProductInCart pc = productInCartRepository.findById(product_ic_id).get();
+        Cart c = pc.getCart();
+        c.setProducts(c.getProducts().stream().filter(product ->
+                product.getProduct_id() != product_ic_id).collect(Collectors.toSet()));
+        cartRepository.save(c);
         productInCartRepository.deleteById(product_ic_id);
     }
 
