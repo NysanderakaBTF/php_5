@@ -5,7 +5,7 @@ services:
     image: 'docker-spring-boot-postgres:latest'
     build:
       context: .
-    container_name: app_php_5
+    container_name: app_php_6
     depends_on:
       - db
     environment:
@@ -14,18 +14,36 @@ services:
       - SPRING_DATASOURCE_PASSWORD=compose-postgres
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     networks:
-      - php_5
+      - php_6
     ports:
       - "8080:8080"
   db:
     image: 'postgres:15-alpine'
-    container_name: db_php5
+    container_name: db_php6
     environment:
       - POSTGRES_USER=compose-postgres
       - POSTGRES_PASSWORD=compose-postgres
     networks:
-      - php_5
+      - php_6
     ports:
       - "5432:5432"
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container_php6
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=example@example.com
+      - PGADMIN_DEFAULT_PASSWORD=password
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - db
+    networks:
+      - php_6
 networks:
-  php_5:
+  php_6:
+
+volumes:
+  pgadmin-data:

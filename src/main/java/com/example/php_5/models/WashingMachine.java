@@ -30,4 +30,7 @@ public class WashingMachine {
 
     @Column
     private int price;
+
+    @Column
+    private int total_q;
 }

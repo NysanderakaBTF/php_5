@@ -2,7 +2,6 @@ package com.example.php_5.models;
 
 
 import jakarta.persistence.*;
-import jdk.jfr.Unsigned;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,25 +9,23 @@ import lombok.Setter;
 @Table
 @Getter
 @Setter
-public class Book {
+public class ProductInCart {
     @Id
     @GeneratedValue
     @Column
     private int id;
+
     @Column
-    private String bookname;
+    private int quanity;
+
     @Column
-    private String author;
-    @Column
-    private int seller_id;
+    private int product_id;
 
     @Column()
     @Enumerated(EnumType.STRING)
-    private ProductType productType = ProductType.BOOK;
+    private ProductType productType;
 
-    @Column
-    private int price;
-
-    @Column
-    private int total_q;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "cart_id", nullable = false)
+    private Cart cart;
 }

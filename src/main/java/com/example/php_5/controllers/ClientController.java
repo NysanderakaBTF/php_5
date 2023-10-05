@@ -1,5 +1,7 @@
 package com.example.php_5.controllers;
+import com.example.php_5.models.Cart;
 import com.example.php_5.models.Client;
+import com.example.php_5.service.CartService;
 import com.example.php_5.service.ClinetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,9 @@ public class ClientController
     //autowire the BooksService class
     @Autowired
     ClinetService booksService;
+
+    @Autowired
+    CartService cartService;
     //creating a get mapping that retrieves all the books detail from the database
     @GetMapping("/client")
     private List<Client> getAllBooks()
@@ -34,6 +39,10 @@ public class ClientController
     private int saveBook(@RequestBody Client books)
     {
         booksService.saveOrUpdate(books);
+        Cart cart = new Cart();
+        cart.setClient(books);
+        cart.setTotal(0);
+        cartService.saveOrUpdate(cart);
         return books.getId();
     }
     //creating put mapping that updates the book detail

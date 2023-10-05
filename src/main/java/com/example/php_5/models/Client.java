@@ -25,4 +25,7 @@ public class Client {
 
     @Column
     private String password;
+
+    @OneToOne(mappedBy = "client")
+    private Cart cart;
 }
